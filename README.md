@@ -120,19 +120,91 @@ $ gist REPORT.md
 
 1. Скачайте библиотеку *boost* с помощью утилиты **wget**. Адрес для скачивания `https://sourceforge.net/projects/boost/files/boost/1.69.0/boost_1_69_0.tar.gz`.
 ```sh
-
+$ wget https://sourceforge.net/projects/boost/files/boost/1.69.0/boost_1_69_0.tar.gz
 ```
 2. Разархивируйте скаченный файл в директорию `~/boost_1_69_0`
+```sh
+$ tar -xvf boost_1_69_0.tar.gz
+```
 3. Подсчитайте количество файлов в директории `~/boost_1_69_0` **не включая** вложенные директории.
-4. Подсчитайте количество файлов в директории `~/boost_1_69_0` **включая** вложенные директории.
-5. Подсчитайте количество заголовочных файлов, файлов с расширением `.cpp`, сколько остальных файлов (не заголовочных и не `.cpp`).
-6. Найдите полный пусть до файла `any.hpp` внутри библиотеки *boost*.
-7. Выведите в консоль все файлы, где упоминается последовательность `boost::asio`.
-8. Скомпилирутйе *boost*. Можно воспользоваться [инструкцией](https://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html#or-build-custom-binaries) или [ссылкой](https://codeyarns.com/2017/01/24/how-to-build-boost-on-linux/).
-9. Перенесите все скомпилированные на предыдущем шаге статические библиотеки в директорию `~/boost-libs`.
-10. Подсчитайте сколько занимает дискового пространства каждый файл в этой директории.
-11. Найдите *топ10* самых "тяжёлых".
+```sh
+$ cd boost_1_69_0
+tree -a -L 1
+.
+├── boost
+├── boost-build.jam
+├── boostcpp.jam
+├── boost.css
+├── boost.png
+├── bootstrap.bat
+├── bootstrap.sh
+├── doc
+├── index.htm
+├── index.html
+├── INSTALL
+├── Jamroot
+├── libs
+├── LICENSE_1_0.txt
+├── more
+├── rst.css
+├── status
+└── tools
 
+- 6 directories, 12 files
+```
+4. Подсчитайте количество файлов в директории `~/boost_1_69_0` **включая** вложенные директории.
+```sh
+$ find -type f | wc -l
+61191
+
+```
+5. Подсчитайте количество заголовочных файлов, файлов с расширением `.cpp`, сколько остальных файлов (не заголовочных и не `.cpp`).
+```sh
+$ find -name '*.h' | wc -l
+296
+$ find -name '*.cpp' | wc -l
+13774
+$ find '!' -name '*.h' -a '!' -name '*.cpp' | wc -l
+52759
+```
+6. Найдите полный пусть до файла `any.hpp` внутри библиотеки *boost*.
+```sh
+$ find $(pwd) -name any.hpp
+ /home/nejelia/boost_1_69_0/boost/hana/any.hpp
+ /home/nejelia/boost_1_69_0/boost/hana/fwd/any.hpp
+ /home/nejelia/boost_1_69_0/boost/spirit/home/support/algorithm/any.hpp
+ /home/nejelia/boost_1_69_0/boost/any.hpp
+ /home/nejelia/boost_1_69_0/boost/xpressive/detail/utility/any.hpp
+ /home/nejelia/boost_1_69_0/boost/proto/detail/any.hpp
+ /home/nejelia/boost_1_69_0/boost/fusion/include/any.hpp
+ /home/nejelia/boost_1_69_0/boost/fusion/algorithm/query/detail/any.hpp
+ /home/nejelia/boost_1_69_0/boost/fusion/algorithm/query/any.hpp
+ /home/nejelia/boost_1_69_0/boost/type_erasure/any.hpp
+```
+7. Выведите в консоль все файлы, где упоминается последовательность `boost::asio`.
+```sh
+$ grep -R -l "boost::asio"
+```
+8. Скомпилирутйе *boost*. Можно воспользоваться [инструкцией](https://www.boost.org/doc/libs/1_61_0/more/getting_started/unix-variants.html#or-build-custom-binaries) или [ссылкой](https://codeyarns.com/2017/01/24/how-to-build-boost-on-linux/).
+```sh
+$ sudo apt install libicu-dev
+$ ./bootstrap.sh --prefix=boost_output
+$ ./b2 install
+```
+9. Перенесите все скомпилированные на предыдущем шаге статические библиотеки в директорию `~/boost-libs`.
+```sh
+$ mkdir \boost-libs
+$ mv ~/boost_1_69_0/boost_output/lib/ ~/boost-libs/
+
+```
+10. Подсчитайте сколько занимает дискового пространства каждый файл в этой директории.
+```sh
+$ du -h -a | sort -h
+```
+11. Найдите *топ10* самых "тяжёлых".
+```sh
+$ du -h -a | sort -r -h | head -n 10
+```
 ```
 Copyright (c) 2015-2021 The ISC Authors
 ```
