@@ -204,6 +204,15 @@ $ du -h -a | sort -h
 11. Найдите *топ10* самых "тяжёлых".
 ```sh
 $ du -h -a | sort -r -h | head -n 10
+8904	./src
+5952	./src/engine
+4052	./boost_output
+3684	./src/engine/boehm_gc
+3468	./boost_output/share
+3464	./boost_output/share/boost-build
+2908	./boost_output/share/boost-build/src
+1908	./test
+1712	./src/tools
 ```
 ```
 Copyright (c) 2015-2021 The ISC Authors
